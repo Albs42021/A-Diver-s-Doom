@@ -2,7 +2,7 @@
 // 
 // CHANGES || version VERSION
 //
-// "Enable/Disable Headbob, Changed look rotations - should result in reduced camera jitters" || version 1.0.1
+// "Enable/Disable Headbob, Changed look rotations - should result in reduced camera jitters" || version 1.0.3
 
 using System.Collections;
 using System.Collections.Generic;
@@ -43,17 +43,20 @@ public class FirstPersonController : MonoBehaviour
     public float bobSpeed = 10f;
     public Vector3 bobAmount = new Vector3(.15f, .05f, 0f);
 
-    public bool enableClimb = true;
-    public float climbSpeed = 3f;
-    public LayerMask climbableLayer;
-    public float climbCheckDistance = 1f;
+    public LayerMask waterLayer;
+    public float swimSpeed = 3f;
+    public float waterCheckRadius = 0.5f;
+    public float swimSinkSpeed = 0.5f;
 
+    public LayerMask climbableLayer;
+    public float climbSpeed = 3f;
     private bool isClimbing = false;
 
     private Vector2 moveInput;
     private Vector2 lookInput;
     private bool jumpInput;
     private bool sprinting;
+    private bool isInWater = false;
 
     private bool isGrounded = false;
     private Vector3 jointOriginalPos;
@@ -140,12 +143,13 @@ public class FirstPersonController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(pitch, 0, 0);
         }
 
-        if (enableJump && jumpInput && isGrounded)
+        CheckWater();
+        CheckClimb();
+
+        if (!isInWater && enableJump && jumpInput && isGrounded && !isClimbing)
         {
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
-
-        CheckForClimb();
 
         if (enableHeadBob && joint != null)
         {
@@ -158,23 +162,37 @@ public class FirstPersonController : MonoBehaviour
         if (!playerCanMove || moveAction == null)
             return;
 
+        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+        move = transform.TransformDirection(move);
+
         if (isClimbing)
         {
-            Vector3 climbDirection = new Vector3(moveInput.x, moveInput.y, 0);
-            Vector3 climbVelocity = transform.TransformDirection(climbDirection) * climbSpeed;
-            rb.linearVelocity = new Vector3(climbVelocity.x, climbVelocity.y, climbVelocity.z);
-            return;
+            Vector3 climbMove = new Vector3(moveInput.x, moveInput.y, 0);
+            climbMove = transform.TransformDirection(climbMove);
+            rb.linearVelocity = climbMove * climbSpeed;
         }
+        else if (isInWater)
+        {
+            float vertical = -swimSinkSpeed;
+            if (Keyboard.current.spaceKey.isPressed) vertical = 1f;
+            if (Keyboard.current.leftCtrlKey.isPressed) vertical = -1f;
 
-        float currentSpeed = sprinting ? walkSpeed * sprintMultiplier : walkSpeed;
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
-        move = transform.TransformDirection(move) * currentSpeed;
+            float currentSwimSpeed = sprinting ? swimSpeed * sprintMultiplier : swimSpeed;
 
-        Vector3 velocity = rb.linearVelocity;
-        Vector3 velocityChange = move - velocity;
-        velocityChange.y = 0;
+            Vector3 swimDirection = (move + Vector3.up * vertical).normalized;
+            rb.linearVelocity = swimDirection * currentSwimSpeed;
+        }
+        else
+        {
+            float currentSpeed = sprinting ? walkSpeed * sprintMultiplier : walkSpeed;
+            move *= currentSpeed;
 
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+            Vector3 velocity = rb.linearVelocity;
+            Vector3 velocityChange = move - velocity;
+            velocityChange.y = 0;
+
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
     }
 
     private void OnCollisionStay(Collision collision)
@@ -187,9 +205,44 @@ public class FirstPersonController : MonoBehaviour
         isGrounded = false;
     }
 
+    private void CheckWater()
+    {
+        bool nowInWater = Physics.CheckSphere(transform.position, waterCheckRadius, waterLayer);
+
+        if (nowInWater != isInWater)
+        {
+            isInWater = nowInWater;
+            ApplyUnderwaterEffects(isInWater);
+        }
+    }
+
+    private void CheckClimb()
+    {
+        isClimbing = Physics.Raycast(transform.position, transform.forward, 1f, climbableLayer);
+    }
+
+    private void ApplyUnderwaterEffects(bool underwater)
+    {
+        if (underwater)
+        {
+            RenderSettings.fog = true;
+            RenderSettings.fogColor = new Color(0.0f, 0.4f, 0.7f, 1f);
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogDensity = 0.02f;
+            RenderSettings.ambientLight = new Color(0.2f, 0.4f, 0.5f);
+        }
+        else
+        {
+            RenderSettings.fog = false;
+            RenderSettings.fogColor = Color.clear;
+            RenderSettings.fogDensity = 0f;
+            RenderSettings.ambientLight = Color.white;
+        }
+    }
+
     private void HeadBob()
     {
-        if (moveInput != Vector2.zero && isGrounded)
+        if (moveInput != Vector2.zero && isGrounded && !isInWater)
         {
             timer += Time.deltaTime * bobSpeed;
             joint.localPosition = jointOriginalPos + new Vector3(Mathf.Sin(timer) * bobAmount.x, Mathf.Sin(timer * 2) * bobAmount.y, 0);
@@ -198,23 +251,6 @@ public class FirstPersonController : MonoBehaviour
         {
             timer = 0;
             joint.localPosition = Vector3.Lerp(joint.localPosition, jointOriginalPos, Time.deltaTime * bobSpeed);
-        }
-    }
-
-    private void CheckForClimb()
-    {
-        if (!enableClimb) return;
-
-        Ray ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, climbCheckDistance, climbableLayer))
-        {
-            isClimbing = true;
-            rb.useGravity = false;
-        }
-        else
-        {
-            isClimbing = false;
-            rb.useGravity = true;
         }
     }
 }
