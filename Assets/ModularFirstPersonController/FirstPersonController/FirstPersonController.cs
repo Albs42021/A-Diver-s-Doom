@@ -43,6 +43,13 @@ public class FirstPersonController : MonoBehaviour
     public float bobSpeed = 10f;
     public Vector3 bobAmount = new Vector3(.15f, .05f, 0f);
 
+    public bool enableClimb = true;
+    public float climbSpeed = 3f;
+    public LayerMask climbableLayer;
+    public float climbCheckDistance = 1f;
+
+    private bool isClimbing = false;
+
     private Vector2 moveInput;
     private Vector2 lookInput;
     private bool jumpInput;
@@ -138,6 +145,8 @@ public class FirstPersonController : MonoBehaviour
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
 
+        CheckForClimb();
+
         if (enableHeadBob && joint != null)
         {
             HeadBob();
@@ -148,6 +157,14 @@ public class FirstPersonController : MonoBehaviour
     {
         if (!playerCanMove || moveAction == null)
             return;
+
+        if (isClimbing)
+        {
+            Vector3 climbDirection = new Vector3(moveInput.x, moveInput.y, 0);
+            Vector3 climbVelocity = transform.TransformDirection(climbDirection) * climbSpeed;
+            rb.linearVelocity = new Vector3(climbVelocity.x, climbVelocity.y, climbVelocity.z);
+            return;
+        }
 
         float currentSpeed = sprinting ? walkSpeed * sprintMultiplier : walkSpeed;
         Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
@@ -181,6 +198,23 @@ public class FirstPersonController : MonoBehaviour
         {
             timer = 0;
             joint.localPosition = Vector3.Lerp(joint.localPosition, jointOriginalPos, Time.deltaTime * bobSpeed);
+        }
+    }
+
+    private void CheckForClimb()
+    {
+        if (!enableClimb) return;
+
+        Ray ray = new Ray(transform.position, transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, climbCheckDistance, climbableLayer))
+        {
+            isClimbing = true;
+            rb.useGravity = false;
+        }
+        else
+        {
+            isClimbing = false;
+            rb.useGravity = true;
         }
     }
 }
