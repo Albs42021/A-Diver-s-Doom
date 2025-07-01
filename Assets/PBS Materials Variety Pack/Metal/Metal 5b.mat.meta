@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 32f24be23d7e7a144a5ea612fcdc6d19
+labels:
+- Metal
+- Tile
+- Rust
+- Rusty
+timeCreated: 1431450354
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Metal/Metal 5b.mat
+  uploadId: 521211

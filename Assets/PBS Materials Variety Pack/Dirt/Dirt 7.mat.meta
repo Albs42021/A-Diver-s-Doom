@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: bb62c590d666cfa48ba26782c6c46f03
+labels:
+- Dirt
+- Ground
+timeCreated: 1435018250
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Dirt/Dirt 7.mat
+  uploadId: 521211

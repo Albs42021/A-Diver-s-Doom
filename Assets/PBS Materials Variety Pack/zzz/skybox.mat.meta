@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e1c73270349e64a1a8563b6a60d21a89
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/zzz/skybox.mat
+  uploadId: 521211

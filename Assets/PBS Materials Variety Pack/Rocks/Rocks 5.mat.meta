@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 1397dbb8aaf49704a98ee06a0bf709ff
+labels:
+- Rocks
+- Stones
+- Pebbles
+- Gravel
+timeCreated: 1434390953
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Rocks/Rocks 5.mat
+  uploadId: 521211

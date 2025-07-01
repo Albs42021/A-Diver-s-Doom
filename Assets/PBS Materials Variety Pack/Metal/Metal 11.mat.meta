@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 80163557887c0fd4ba8ac2bbaee52a17
+labels:
+- Metal
+- Rust
+- Rusty
+timeCreated: 1434319236
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Metal/Metal 11.mat
+  uploadId: 521211

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: be1fb31c7813d794ca0bb3056f583534
+labels:
+- Brick
+- Stone
+- Concrete
+timeCreated: 1434207488
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Brick/Brick 5.mat
+  uploadId: 521211

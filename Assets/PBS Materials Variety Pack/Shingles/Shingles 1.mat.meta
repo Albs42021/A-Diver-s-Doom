@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: b0be9b80f8c2eec4e94ead847004b60f
+labels:
+- Shingles
+- Roof
+- Roofing
+- Metal
+timeCreated: 1434810263
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Shingles/Shingles 1.mat
+  uploadId: 521211

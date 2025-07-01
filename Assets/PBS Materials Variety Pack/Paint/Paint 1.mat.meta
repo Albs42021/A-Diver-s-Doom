@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fcf39a428c6cbfb48b1aca53c52bb11f
+labels:
+- Paint
+- Wall
+timeCreated: 1431518624
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 40112
+  packageName: PBR Materials Sampler Pack
+  packageVersion: 1.1.1
+  assetPath: Assets/PBS Materials Variety Pack/Paint/Paint 1.mat
+  uploadId: 521211
