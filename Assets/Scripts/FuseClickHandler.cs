@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class FuseClickHandler : MonoBehaviour
 {
-    void OnMouseDown()
+    public void OnFuseClicked()
     {
-        GetComponentInParent<FusePuzzle>()
-            .RotateFuse(gameObject);
+        Debug.Log($"Fuse clicked: {gameObject.name}");
+        GetComponentInParent<FusePuzzle>().RotateFuse(gameObject);
     }
 }

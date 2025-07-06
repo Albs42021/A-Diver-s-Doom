@@ -1,39 +1,51 @@
+﻿using DG.Tweening; // ← Add this for DOTween
 using UnityEngine;
-using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
 public class FusePuzzle : MonoBehaviour
 {
-    public GameObject[] fuses;
-    private int solvedCount = 0;
-    public TMP_Text puzzleStatusText;
+    public List<GameObject> fuses;
+    private bool[] fuseStates;
+    public bool solved = false;
 
     void Start()
     {
-        foreach (var fuse in fuses)
-            fuse.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-        if (puzzleStatusText != null)
-            puzzleStatusText.text = "Align all fuses to solve.";
+        fuseStates = new bool[fuses.Count];
     }
 
     public void RotateFuse(GameObject fuse)
     {
-        fuse.transform.Rotate(0, 90, 0);
-        CheckSolved();
+        if (solved) return;
+
+        int index = fuses.IndexOf(fuse);
+        if (index == -1) return;
+
+        fuseStates[index] = !fuseStates[index];
+
+        Transform rotatingPart = fuse.transform.Find("RotatingPart");
+        if (rotatingPart != null)
+        {
+            float targetAngle = fuseStates[index] ? 90f : 0f;
+
+            // Kill any ongoing tweens on this object
+            rotatingPart.DOKill();
+
+            // Smoothly rotate over 0.25 seconds
+            rotatingPart
+                .DOLocalRotate(new Vector3(0, targetAngle, 0), 0.25f, RotateMode.Fast)
+                .SetEase(Ease.OutQuad);
+        }
+
+        CheckPuzzle();
     }
 
-    void CheckSolved()
+    private void CheckPuzzle()
     {
-        solvedCount = 0;
-        foreach (var fuse in fuses)
-            if (Mathf.Abs(fuse.transform.localEulerAngles.y % 360) < 5f)
-                solvedCount++;
-
-        if (solvedCount == fuses.Length)
+        if (fuseStates.All(state => state))
         {
+            solved = true;
             Debug.Log("Puzzle Solved!");
-            if (puzzleStatusText != null)
-                puzzleStatusText.text = "Puzzle Solved!";
-            GetComponentInParent<RoomConnector>().enabled = true;
         }
     }
 }
