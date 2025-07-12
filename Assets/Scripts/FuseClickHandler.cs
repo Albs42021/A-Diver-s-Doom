@@ -4,7 +4,14 @@ public class FuseClickHandler : MonoBehaviour
 {
     public void OnFuseClicked()
     {
-        Debug.Log($"Fuse clicked: {gameObject.name}");
-        GetComponentInParent<FusePuzzle>().RotateFuse(gameObject);
+        var parentPuzzle = GetComponentInParent<FusePuzzle>();
+        if (parentPuzzle != null)
+        {
+            parentPuzzle.RotateFuse(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("No FusePuzzle script found on parent!");
+        }
     }
 }
