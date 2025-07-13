@@ -37,41 +37,43 @@ public class SubmarineLevelGenerator : MonoBehaviour
             {
                 GameObject split = Instantiate(splitHallwayPrefab, currentPoint.position, currentPoint.rotation);
                 SplitHallwayConnector splitConnector = split.GetComponent<SplitHallwayConnector>();
+
                 if (splitConnector == null || splitConnector.forwardExit == null || splitConnector.sideExit == null)
                 {
                     Debug.LogError("SplitHallwayConnector missing or misconfigured.");
                     return;
                 }
 
-                currentPoint = splitConnector.forwardExit;
-
                 int depth = Random.Range(branchDepthMin, branchDepthMax + 1);
-                GenerateBranch(splitConnector.sideExit, depth);
+
+                GenerateBranch(splitConnector.sideExit, depth - 1);
+                currentPoint = splitConnector.forwardExit;
             }
             else
             {
                 GameObject branching = Instantiate(branchingHallwayPrefab, currentPoint.position, currentPoint.rotation);
                 BranchingHallwayConnector branchingConnector = branching.GetComponent<BranchingHallwayConnector>();
+
                 if (branchingConnector == null || branchingConnector.forwardExit == null)
                 {
                     Debug.LogError("BranchingHallwayConnector missing or misconfigured.");
                     return;
                 }
 
-                currentPoint = branchingConnector.forwardExit;
+                int leftDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
+                int rightDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
 
-                if (branchingConnector.leftExit == null || branchingConnector.rightExit == null)
-                {
-                    Debug.LogWarning("BranchingHallwayConnector is missing one or both exits!");
-                }
+                if (branchingConnector.leftExit != null)
+                    GenerateBranch(branchingConnector.leftExit, leftDepth - 1);
                 else
-                {
-                    int leftDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
-                    int rightDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
+                    SpawnDeadEnd(currentPoint);
 
-                    GenerateBranch(branchingConnector.leftExit, leftDepth);
-                    GenerateBranch(branchingConnector.rightExit, rightDepth);
-                }
+                if (branchingConnector.rightExit != null)
+                    GenerateBranch(branchingConnector.rightExit, rightDepth - 1);
+                else
+                    SpawnDeadEnd(currentPoint);
+
+                currentPoint = branchingConnector.forwardExit;
             }
         }
 
@@ -80,19 +82,19 @@ public class SubmarineLevelGenerator : MonoBehaviour
 
     void GenerateBranch(Transform fromPoint, int depth)
     {
-        if (depth <= 0) return;
+        if (depth <= 0 || fromPoint == null)
+        {
+            SpawnDeadEnd(fromPoint);
+            return;
+        }
 
-        Debug.Log($"[Branch] Generating branch of depth {depth} at {fromPoint.name}");
         Transform current = fromPoint;
 
         current = SpawnPuzzle(current);
 
         if (depth == 1)
         {
-            if (deadEndHallwayPrefab != null)
-            {
-                Instantiate(deadEndHallwayPrefab, current.position, current.rotation);
-            }
+            SpawnDeadEnd(current);
             return;
         }
 
@@ -104,36 +106,55 @@ public class SubmarineLevelGenerator : MonoBehaviour
         {
             GameObject split = Instantiate(splitHallwayPrefab, current.position, current.rotation);
             SplitHallwayConnector splitConnector = split.GetComponent<SplitHallwayConnector>();
-            if (splitConnector == null || splitConnector.forwardExit == null || splitConnector.sideExit == null) return;
 
-            GenerateBranch(splitConnector.sideExit, depth - 1);
-            current = splitConnector.forwardExit;
+            if (splitConnector != null)
+            {
+                if (splitConnector.sideExit != null)
+                    GenerateBranch(splitConnector.sideExit, depth - 1);
+                else
+                    SpawnDeadEnd(current);
+
+                if (splitConnector.forwardExit != null)
+                    GenerateBranch(splitConnector.forwardExit, depth - 1);
+                else
+                    SpawnDeadEnd(current);
+            }
         }
         else
         {
             GameObject branching = Instantiate(branchingHallwayPrefab, current.position, current.rotation);
             BranchingHallwayConnector branchingConnector = branching.GetComponent<BranchingHallwayConnector>();
-            if (branchingConnector == null || branchingConnector.forwardExit == null) return;
 
-            if (branchingConnector.leftExit != null)
-                GenerateBranch(branchingConnector.leftExit, depth - 1);
-            if (branchingConnector.rightExit != null)
-                GenerateBranch(branchingConnector.rightExit, depth - 1);
+            if (branchingConnector != null)
+            {
+                if (branchingConnector.leftExit != null)
+                    GenerateBranch(branchingConnector.leftExit, depth - 1);
+                else
+                    SpawnDeadEnd(current);
 
-            current = branchingConnector.forwardExit;
+                if (branchingConnector.rightExit != null)
+                    GenerateBranch(branchingConnector.rightExit, depth - 1);
+                else
+                    SpawnDeadEnd(current);
+
+                if (branchingConnector.forwardExit != null)
+                    GenerateBranch(branchingConnector.forwardExit, depth - 1);
+                else
+                    SpawnDeadEnd(current);
+            }
         }
     }
 
     Transform SpawnStraightHallway(Transform atPoint)
     {
         GameObject hallway = Instantiate(straightHallwayPrefab, atPoint.position, atPoint.rotation);
-        RoomConnector hallwayConnector = hallway.GetComponent<RoomConnector>();
-        if (hallwayConnector == null || hallwayConnector.exitPoint == null)
+        RoomConnector connector = hallway.GetComponent<RoomConnector>();
+        if (connector == null || connector.exitPoint == null)
         {
             Debug.LogError("StraightHallway missing RoomConnector or ExitPoint.");
             return atPoint;
         }
-        return hallwayConnector.exitPoint;
+        return connector.exitPoint;
     }
 
     Transform SpawnPuzzle(Transform atPoint)
@@ -148,6 +169,12 @@ public class SubmarineLevelGenerator : MonoBehaviour
         return connector != null && connector.exitPoint != null
             ? connector.exitPoint
             : atPoint;
+    }
+
+    void SpawnDeadEnd(Transform atPoint)
+    {
+        if (atPoint == null || deadEndHallwayPrefab == null) return;
+        Instantiate(deadEndHallwayPrefab, atPoint.position, atPoint.rotation);
     }
 
     void ValidateHallwayPrefabs()
