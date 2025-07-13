@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class SubmarineLevelGenerator : MonoBehaviour
 {
@@ -7,6 +6,7 @@ public class SubmarineLevelGenerator : MonoBehaviour
     public GameObject straightHallwayPrefab;
     public GameObject branchingHallwayPrefab;
     public GameObject splitHallwayPrefab;
+    public GameObject deadEndHallwayPrefab;
     public GameObject[] puzzleRoomPrefabs;
     public GameObject escapeRoomPrefab;
 
@@ -18,6 +18,7 @@ public class SubmarineLevelGenerator : MonoBehaviour
 
     void Start()
     {
+        ValidateHallwayPrefabs();
         GenerateLevel();
     }
 
@@ -59,32 +60,43 @@ public class SubmarineLevelGenerator : MonoBehaviour
 
                 currentPoint = branchingConnector.forwardExit;
 
-                int leftDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
-                int rightDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
+                if (branchingConnector.leftExit == null || branchingConnector.rightExit == null)
+                {
+                    Debug.LogWarning("BranchingHallwayConnector is missing one or both exits!");
+                }
+                else
+                {
+                    int leftDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
+                    int rightDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
 
-                if (branchingConnector.leftExit != null)
                     GenerateBranch(branchingConnector.leftExit, leftDepth);
-
-                if (branchingConnector.rightExit != null)
                     GenerateBranch(branchingConnector.rightExit, rightDepth);
+                }
             }
         }
 
-        // Final room
         Instantiate(escapeRoomPrefab, currentPoint.position, currentPoint.rotation);
     }
 
-    // 💡 Recursive branch generator
     void GenerateBranch(Transform fromPoint, int depth)
     {
         if (depth <= 0) return;
 
+        Debug.Log($"[Branch] Generating branch of depth {depth} at {fromPoint.name}");
         Transform current = fromPoint;
 
         current = SpawnPuzzle(current);
-        current = SpawnStraightHallway(current);
 
-        if (depth == 1) return;
+        if (depth == 1)
+        {
+            if (deadEndHallwayPrefab != null)
+            {
+                Instantiate(deadEndHallwayPrefab, current.position, current.rotation);
+            }
+            return;
+        }
+
+        current = SpawnStraightHallway(current);
 
         bool useSplit = Random.value < 0.5f;
 
@@ -92,9 +104,8 @@ public class SubmarineLevelGenerator : MonoBehaviour
         {
             GameObject split = Instantiate(splitHallwayPrefab, current.position, current.rotation);
             SplitHallwayConnector splitConnector = split.GetComponent<SplitHallwayConnector>();
-            if (splitConnector == null) return;
+            if (splitConnector == null || splitConnector.forwardExit == null || splitConnector.sideExit == null) return;
 
-            // Recurse into side exit
             GenerateBranch(splitConnector.sideExit, depth - 1);
             current = splitConnector.forwardExit;
         }
@@ -102,9 +113,8 @@ public class SubmarineLevelGenerator : MonoBehaviour
         {
             GameObject branching = Instantiate(branchingHallwayPrefab, current.position, current.rotation);
             BranchingHallwayConnector branchingConnector = branching.GetComponent<BranchingHallwayConnector>();
-            if (branchingConnector == null) return;
+            if (branchingConnector == null || branchingConnector.forwardExit == null) return;
 
-            // Recurse into both sides
             if (branchingConnector.leftExit != null)
                 GenerateBranch(branchingConnector.leftExit, depth - 1);
             if (branchingConnector.rightExit != null)
@@ -114,7 +124,6 @@ public class SubmarineLevelGenerator : MonoBehaviour
         }
     }
 
-    // Common straight hallway spawner
     Transform SpawnStraightHallway(Transform atPoint)
     {
         GameObject hallway = Instantiate(straightHallwayPrefab, atPoint.position, atPoint.rotation);
@@ -139,5 +148,17 @@ public class SubmarineLevelGenerator : MonoBehaviour
         return connector != null && connector.exitPoint != null
             ? connector.exitPoint
             : atPoint;
+    }
+
+    void ValidateHallwayPrefabs()
+    {
+        if (branchingHallwayPrefab != null)
+        {
+            var temp = Instantiate(branchingHallwayPrefab);
+            var bc = temp.GetComponent<BranchingHallwayConnector>();
+            if (bc == null || bc.forwardExit == null || bc.leftExit == null || bc.rightExit == null)
+                Debug.LogError("BranchingHallwayPrefab missing one or more exits!");
+            Destroy(temp);
+        }
     }
 }
