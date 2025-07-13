@@ -249,12 +249,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319705710}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2858f09f61b631c41a4891c5f7010d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleRooms: []
+  puzzleRooms:
+  - {fileID: 895037550155073435, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
   hallwayPrefab: {fileID: 0}
   startPoint: {fileID: 366680239}
   numRooms: 5
@@ -581,63 +582,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.3
   magnitude: 0.2
---- !u!1001 &2953169469407861488
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 895037550155073435, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_Name
-      value: FusePuzzleRoom
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1419721234630608492, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -645,5 +589,4 @@ SceneRoots:
   - {fileID: 1321333196}
   - {fileID: 148511141}
   - {fileID: 319705712}
-  - {fileID: 2953169469407861488}
   - {fileID: 1036215368}
