@@ -16,6 +16,8 @@ public class SubmarineLevelGenerator : MonoBehaviour
     public int branchDepthMin = 1;
     public int branchDepthMax = 2;
 
+    private bool escapePlaced = false;
+
     void Start()
     {
         ValidateHallwayPrefabs();
@@ -44,10 +46,18 @@ public class SubmarineLevelGenerator : MonoBehaviour
                     return;
                 }
 
-                int depth = Random.Range(branchDepthMin, branchDepthMax + 1);
+                int correctBranch = Random.Range(0, 2); // 0 for forward, 1 for side
 
-                GenerateBranch(splitConnector.sideExit, depth - 1);
-                currentPoint = splitConnector.forwardExit;
+                if (correctBranch == 0)
+                {
+                    currentPoint = splitConnector.forwardExit;
+                    GenerateBranch(splitConnector.sideExit, Random.Range(branchDepthMin, branchDepthMax + 1));
+                }
+                else
+                {
+                    GenerateBranch(splitConnector.forwardExit, Random.Range(branchDepthMin, branchDepthMax + 1));
+                    currentPoint = splitConnector.sideExit;
+                }
             }
             else
             {
@@ -60,20 +70,36 @@ public class SubmarineLevelGenerator : MonoBehaviour
                     return;
                 }
 
-                int leftDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
-                int rightDepth = Random.Range(branchDepthMin, branchDepthMax + 1);
+                int correctBranch = Random.Range(0, 3); // 0 = forward, 1 = left, 2 = right
 
-                if (branchingConnector.leftExit != null)
-                    GenerateBranch(branchingConnector.leftExit, leftDepth - 1);
+                Transform forward = branchingConnector.forwardExit;
+                Transform left = branchingConnector.leftExit;
+                Transform right = branchingConnector.rightExit;
+
+                if (correctBranch == 0)
+                {
+                    currentPoint = forward;
+                    GenerateBranch(left, Random.Range(branchDepthMin, branchDepthMax + 1));
+                    GenerateBranch(right, Random.Range(branchDepthMin, branchDepthMax + 1));
+                }
+                else if (correctBranch == 1 && left != null)
+                {
+                    GenerateBranch(forward, Random.Range(branchDepthMin, branchDepthMax + 1));
+                    currentPoint = left;
+                    GenerateBranch(right, Random.Range(branchDepthMin, branchDepthMax + 1));
+                }
+                else if (correctBranch == 2 && right != null)
+                {
+                    GenerateBranch(forward, Random.Range(branchDepthMin, branchDepthMax + 1));
+                    GenerateBranch(left, Random.Range(branchDepthMin, branchDepthMax + 1));
+                    currentPoint = right;
+                }
                 else
-                    SpawnDeadEnd(currentPoint);
-
-                if (branchingConnector.rightExit != null)
-                    GenerateBranch(branchingConnector.rightExit, rightDepth - 1);
-                else
-                    SpawnDeadEnd(currentPoint);
-
-                currentPoint = branchingConnector.forwardExit;
+                {
+                    currentPoint = forward;
+                    GenerateBranch(left, Random.Range(branchDepthMin, branchDepthMax + 1));
+                    GenerateBranch(right, Random.Range(branchDepthMin, branchDepthMax + 1));
+                }
             }
         }
 
@@ -109,15 +135,18 @@ public class SubmarineLevelGenerator : MonoBehaviour
 
             if (splitConnector != null)
             {
-                if (splitConnector.sideExit != null)
-                    GenerateBranch(splitConnector.sideExit, depth - 1);
-                else
-                    SpawnDeadEnd(current);
+                int correctBranch = Random.Range(0, 2);
 
-                if (splitConnector.forwardExit != null)
+                if (correctBranch == 0 && splitConnector.forwardExit != null)
+                {
                     GenerateBranch(splitConnector.forwardExit, depth - 1);
-                else
-                    SpawnDeadEnd(current);
+                    GenerateBranch(splitConnector.sideExit, 0);
+                }
+                else if (splitConnector.sideExit != null)
+                {
+                    GenerateBranch(splitConnector.sideExit, depth - 1);
+                    GenerateBranch(splitConnector.forwardExit, 0);
+                }
             }
         }
         else
@@ -127,20 +156,26 @@ public class SubmarineLevelGenerator : MonoBehaviour
 
             if (branchingConnector != null)
             {
-                if (branchingConnector.leftExit != null)
-                    GenerateBranch(branchingConnector.leftExit, depth - 1);
-                else
-                    SpawnDeadEnd(current);
+                int correctBranch = Random.Range(0, 3);
 
-                if (branchingConnector.rightExit != null)
-                    GenerateBranch(branchingConnector.rightExit, depth - 1);
-                else
-                    SpawnDeadEnd(current);
-
-                if (branchingConnector.forwardExit != null)
+                if (correctBranch == 0 && branchingConnector.forwardExit != null)
+                {
                     GenerateBranch(branchingConnector.forwardExit, depth - 1);
-                else
-                    SpawnDeadEnd(current);
+                    GenerateBranch(branchingConnector.leftExit, 0);
+                    GenerateBranch(branchingConnector.rightExit, 0);
+                }
+                else if (correctBranch == 1 && branchingConnector.leftExit != null)
+                {
+                    GenerateBranch(branchingConnector.leftExit, depth - 1);
+                    GenerateBranch(branchingConnector.forwardExit, 0);
+                    GenerateBranch(branchingConnector.rightExit, 0);
+                }
+                else if (correctBranch == 2 && branchingConnector.rightExit != null)
+                {
+                    GenerateBranch(branchingConnector.rightExit, depth - 1);
+                    GenerateBranch(branchingConnector.forwardExit, 0);
+                    GenerateBranch(branchingConnector.leftExit, 0);
+                }
             }
         }
     }
