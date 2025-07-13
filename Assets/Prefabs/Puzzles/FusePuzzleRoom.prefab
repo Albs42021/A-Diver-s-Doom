@@ -90,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1419721234630608492}
   - component: {fileID: 935067349659829527}
+  - component: {fileID: -3476260019033229105}
   m_Layer: 0
   m_Name: FusePuzzleRoom
   m_TagString: Untagged
@@ -153,6 +154,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-3476260019033229105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895037550155073435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a1b159561b7b649b95bc5a84149b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitPoint: {fileID: 753814091950676808}
 --- !u!1 &1579949242367729166
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +1006,7 @@ Transform:
   m_GameObject: {fileID: 7805672233760109962}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24, y: 0, z: 12}
+  m_LocalPosition: {x: 36, y: 0, z: 8.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

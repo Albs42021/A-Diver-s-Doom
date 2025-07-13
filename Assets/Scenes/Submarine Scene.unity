@@ -254,11 +254,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2858f09f61b631c41a4891c5f7010d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puzzleRooms:
+  straightHallwayPrefab: {fileID: 2531139284482917646, guid: 48b552d645b574241b1fd638e90dd1c3, type: 3}
+  branchingHallwayPrefab: {fileID: 4620216274774553048, guid: 75689f66120f53144b5990ce74c4409b, type: 3}
+  splitHallwayPrefab: {fileID: 2626715511644553209, guid: 9ad2ed2e576aa2c419964a9ad136dbe4, type: 3}
+  puzzleRoomPrefabs:
   - {fileID: 895037550155073435, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
-  hallwayPrefab: {fileID: 0}
+  escapeRoomPrefab: {fileID: 0}
   startPoint: {fileID: 366680239}
-  numRooms: 5
+  mainPathLength: 5
+  branchDepthMin: 1
+  branchDepthMax: 3
 --- !u!4 &319705712
 Transform:
   m_ObjectHideFlags: 0
