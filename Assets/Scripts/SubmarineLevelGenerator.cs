@@ -7,6 +7,8 @@ public class SubmarineLevelGenerator : MonoBehaviour
     public GameObject branchingHallwayPrefab;
     public GameObject splitHallwayPrefab;
     public GameObject deadEndHallwayPrefab;
+    public GameObject staircaseUpPrefab;
+    public GameObject staircaseDownPrefab;
     public GameObject[] puzzleRoomPrefabs;
     public GameObject escapeRoomPrefab;
 
@@ -15,8 +17,8 @@ public class SubmarineLevelGenerator : MonoBehaviour
     public int mainPathLength = 4;
     public int branchDepthMin = 1;
     public int branchDepthMax = 2;
-
-    private bool escapePlaced = false;
+    [Range(0f, 1f)]
+    public float staircaseChance = 0.3f;
 
     void Start()
     {
@@ -33,6 +35,13 @@ public class SubmarineLevelGenerator : MonoBehaviour
             currentPoint = SpawnPuzzle(currentPoint);
             currentPoint = SpawnStraightHallway(currentPoint);
 
+            if (Random.value < staircaseChance)
+            {
+                currentPoint = SpawnStaircaseSequence(currentPoint);
+            }
+
+            currentPoint = SpawnStraightHallway(currentPoint);
+
             bool useSplit = Random.value < 0.5f;
 
             if (useSplit)
@@ -46,7 +55,7 @@ public class SubmarineLevelGenerator : MonoBehaviour
                     return;
                 }
 
-                int correctBranch = Random.Range(0, 2); // 0 for forward, 1 for side
+                int correctBranch = Random.Range(0, 2);
 
                 if (correctBranch == 0)
                 {
@@ -70,7 +79,7 @@ public class SubmarineLevelGenerator : MonoBehaviour
                     return;
                 }
 
-                int correctBranch = Random.Range(0, 3); // 0 = forward, 1 = left, 2 = right
+                int correctBranch = Random.Range(0, 3);
 
                 Transform forward = branchingConnector.forwardExit;
                 Transform left = branchingConnector.leftExit;
@@ -117,11 +126,11 @@ public class SubmarineLevelGenerator : MonoBehaviour
         Transform current = fromPoint;
 
         current = SpawnPuzzle(current);
+        current = SpawnStraightHallway(current);
 
-        if (depth == 1)
+        if (Random.value < staircaseChance)
         {
-            SpawnDeadEnd(current);
-            return;
+            current = SpawnStaircaseSequence(current);
         }
 
         current = SpawnStraightHallway(current);
@@ -204,6 +213,28 @@ public class SubmarineLevelGenerator : MonoBehaviour
         return connector != null && connector.exitPoint != null
             ? connector.exitPoint
             : atPoint;
+    }
+
+    Transform SpawnStaircaseSequence(Transform atPoint)
+    {
+        Transform point = SpawnStraightHallway(atPoint);
+        point = SpawnRandomStaircase(point);
+        return SpawnStraightHallway(point);
+    }
+
+    Transform SpawnRandomStaircase(Transform atPoint)
+    {
+        GameObject prefab = Random.value < 0.5f ? staircaseUpPrefab : staircaseDownPrefab;
+        GameObject stairs = Instantiate(prefab, atPoint.position, atPoint.rotation);
+        RoomConnector connector = stairs.GetComponent<RoomConnector>();
+
+        if (connector == null || connector.exitPoint == null)
+        {
+            Debug.LogError("Staircase prefab missing RoomConnector or ExitPoint.");
+            return atPoint;
+        }
+
+        return connector.exitPoint;
     }
 
     void SpawnDeadEnd(Transform atPoint)
