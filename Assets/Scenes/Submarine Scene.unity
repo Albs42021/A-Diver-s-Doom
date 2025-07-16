@@ -183,6 +183,10 @@ PrefabInstance:
       propertyPath: waterLayer.m_Bits
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 4459864850019384740, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
+      propertyPath: footstepSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4459864850019384750, guid: 6bacecc4f3df9584198879c73a6b6c36, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
@@ -271,7 +275,7 @@ MonoBehaviour:
   mainPathLength: 6
   branchDepthMin: 1
   branchDepthMax: 3
-  staircaseChance: 0.5
+  staircaseChance: 0.75
 --- !u!4 &319705712
 Transform:
   m_ObjectHideFlags: 0

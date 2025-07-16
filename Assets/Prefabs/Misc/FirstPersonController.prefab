@@ -181,6 +181,72 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   climbSpeed: 5
+  groundCheckDistance: 1.5
+  groundCheckLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  enableFootsteps: 1
+  footstepInterval: 0.6
+  sprintFootstepInterval: 0.3
+  footstepVolume: 0.75
+  surfaceFootstepSounds:
+  - surfaceTypeName: 
+    walkSounds: []
+    sprintSounds: []
+  - surfaceTypeName: 
+    walkSounds: []
+    sprintSounds: []
+  - surfaceTypeName: 
+    walkSounds: []
+    sprintSounds: []
+  - surfaceTypeName: 
+    walkSounds: []
+    sprintSounds: []
+  - surfaceTypeName: 
+    walkSounds: []
+    sprintSounds: []
+  - surfaceTypeName: 
+    walkSounds: []
+    sprintSounds: []
+  defaultFootstepSounds:
+  - {fileID: 8300000, guid: 01272980ab561c5419dd0633330d1af4, type: 3}
+  - {fileID: 8300000, guid: 0807f80f18cf2f647a4680c54b3634e6, type: 3}
+  - {fileID: 8300000, guid: fb12b3d415c57f74fa125873364e1889, type: 3}
+  - {fileID: 8300000, guid: d1e92bdc7378b1146a3a8f6a5c4032a0, type: 3}
+  - {fileID: 8300000, guid: 559d8a5da03334e4c8d8db73facd02bb, type: 3}
+  - {fileID: 8300000, guid: 1e3198fe686581742923467c14d4b461, type: 3}
+  - {fileID: 8300000, guid: 746876aec055eba4782fc1490c3a4ad1, type: 3}
+  - {fileID: 8300000, guid: 39df6723eef5926498f2f1a0232fba75, type: 3}
+  defaultSprintFootstepSounds:
+  - {fileID: 8300000, guid: 01272980ab561c5419dd0633330d1af4, type: 3}
+  - {fileID: 8300000, guid: 0807f80f18cf2f647a4680c54b3634e6, type: 3}
+  - {fileID: 8300000, guid: fb12b3d415c57f74fa125873364e1889, type: 3}
+  - {fileID: 8300000, guid: d1e92bdc7378b1146a3a8f6a5c4032a0, type: 3}
+  - {fileID: 8300000, guid: 559d8a5da03334e4c8d8db73facd02bb, type: 3}
+  - {fileID: 8300000, guid: 1e3198fe686581742923467c14d4b461, type: 3}
+  - {fileID: 8300000, guid: 746876aec055eba4782fc1490c3a4ad1, type: 3}
+  - {fileID: 8300000, guid: 39df6723eef5926498f2f1a0232fba75, type: 3}
+  waterFootstepSounds:
+  - {fileID: 8300000, guid: 8e2684cb5b218fb4da5f75f4bd49868c, type: 3}
+  - {fileID: 8300000, guid: 2fbf50308d50d6e409ff8df97db15cf9, type: 3}
+  - {fileID: 8300000, guid: 1d9f072fbc85582459baf92833c82f27, type: 3}
+  - {fileID: 8300000, guid: a8631f7f2d0a2f140b0381bdc67c25a1, type: 3}
+  - {fileID: 8300000, guid: d6c7b5f2bf9be1e4b8b00dce28e7ff8d, type: 3}
+  - {fileID: 8300000, guid: 2b3cabadf0ceefc45b1f051fbba39d34, type: 3}
+  - {fileID: 8300000, guid: a617e27f19a6ceb4f8e0fd50e6ec37ef, type: 3}
+  - {fileID: 8300000, guid: a6ac856ac1f2a6945a31bce6d4208e84, type: 3}
+  - {fileID: 8300000, guid: 9efdbcab9d4fc2f429d50981a2b01688, type: 3}
+  - {fileID: 8300000, guid: 24671b2a384de9f4e8fe01d7a89a8d22, type: 3}
+  - {fileID: 8300000, guid: b4ebdc9c88c178142acfdd11ade039e9, type: 3}
+  - {fileID: 8300000, guid: 1757faa55b0b093478d15784e2e8cc21, type: 3}
+  - {fileID: 8300000, guid: 3282f33ebaf173e4a89a208a2058c357, type: 3}
+  - {fileID: 8300000, guid: c8c7ed8ee0e0e8f4b9079463a2b882e6, type: 3}
+  - {fileID: 8300000, guid: 1c313846af468174b8fdc2f40499e9dd, type: 3}
+  - {fileID: 8300000, guid: 9d7caf763962f514797815b2619a4fbb, type: 3}
+  - {fileID: 8300000, guid: d2d6595800b7a0e4c8f749c841b0152d, type: 3}
+  swimSounds: []
+  swimSoundInterval: 0.6
+  swimSprintSoundInterval: 0.4
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &4459864850190357393
 GameObject:
