@@ -56,105 +56,152 @@ public class SurfaceType : MonoBehaviour
     /// <returns>Surface type name for the dominant terrain layer at that position</returns>
     public string GetSurfaceTypeAtPosition(Vector3 worldPosition)
     {
-        if (!isTerrainSurface || terrain == null || terrainData == null)
+        try
         {
+            if (!isTerrainSurface || terrain == null || terrainData == null)
+            {
+                return surfaceTypeName;
+            }
+            
+            // Convert world position to terrain coordinates
+            Vector3 terrainPosition = worldPosition - terrain.transform.position;
+            Vector3 terrainSize = terrainData.size;
+            
+            // Validate terrain size
+            if (terrainSize.x <= 0 || terrainSize.z <= 0)
+            {
+                return surfaceTypeName;
+            }
+            
+            // Calculate normalized position (0-1) on terrain
+            float normalizedX = terrainPosition.x / terrainSize.x;
+            float normalizedZ = terrainPosition.z / terrainSize.z;
+            
+            // Clamp to terrain bounds
+            normalizedX = Mathf.Clamp01(normalizedX);
+            normalizedZ = Mathf.Clamp01(normalizedZ);
+            
+            // Get terrain layer weights at this position
+            string dominantSurfaceType = GetDominantTerrainLayer(normalizedX, normalizedZ);
+            
+            return !string.IsNullOrEmpty(dominantSurfaceType) ? dominantSurfaceType : surfaceTypeName;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogWarning($"Error in GetSurfaceTypeAtPosition: {ex.Message}. Using default surface type.");
             return surfaceTypeName;
         }
-        
-        // Convert world position to terrain coordinates
-        Vector3 terrainPosition = worldPosition - terrain.transform.position;
-        Vector3 terrainSize = terrainData.size;
-        
-        // Calculate normalized position (0-1) on terrain
-        float normalizedX = terrainPosition.x / terrainSize.x;
-        float normalizedZ = terrainPosition.z / terrainSize.z;
-        
-        // Clamp to terrain bounds
-        normalizedX = Mathf.Clamp01(normalizedX);
-        normalizedZ = Mathf.Clamp01(normalizedZ);
-        
-        // Get terrain layer weights at this position
-        string dominantSurfaceType = GetDominantTerrainLayer(normalizedX, normalizedZ);
-        
-        return !string.IsNullOrEmpty(dominantSurfaceType) ? dominantSurfaceType : surfaceTypeName;
     }
     
     private string GetDominantTerrainLayer(float normalizedX, float normalizedZ)
     {
-        if (terrainData.terrainLayers == null || terrainData.terrainLayers.Length == 0)
+        try
         {
+            if (terrainData == null || terrainData.terrainLayers == null || terrainData.terrainLayers.Length == 0)
+            {
+                return surfaceTypeName;
+            }
+            
+            // Get alphamap resolution
+            int alphamapWidth = terrainData.alphamapWidth;
+            int alphamapHeight = terrainData.alphamapHeight;
+            
+            // Validate alphamap dimensions
+            if (alphamapWidth <= 0 || alphamapHeight <= 0)
+            {
+                return surfaceTypeName;
+            }
+            
+            // Convert normalized coordinates to alphamap coordinates
+            int x = Mathf.FloorToInt(normalizedX * (alphamapWidth - 1));
+            int y = Mathf.FloorToInt(normalizedZ * (alphamapHeight - 1));
+            
+            // Clamp coordinates to valid range
+            x = Mathf.Clamp(x, 0, alphamapWidth - 1);
+            y = Mathf.Clamp(y, 0, alphamapHeight - 1);
+            
+            // Get the alphamap data
+            float[,,] alphaMap = terrainData.GetAlphamaps(x, y, 1, 1);
+            
+            if (alphaMap == null)
+            {
+                return surfaceTypeName;
+            }
+            
+            // Find the dominant layer
+            float maxWeight = 0f;
+            int dominantLayerIndex = 0;
+            
+            for (int i = 0; i < terrainData.terrainLayers.Length && i < alphaMap.GetLength(2); i++)
+            {
+                float weight = alphaMap[0, 0, i];
+                if (weight > maxWeight)
+                {
+                    maxWeight = weight;
+                    dominantLayerIndex = i;
+                }
+            }
+            
+            // Get the surface type for the dominant layer
+            string mappedSurfaceType = GetSurfaceTypeForLayer(dominantLayerIndex);
+            return mappedSurfaceType;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogWarning($"Error in GetDominantTerrainLayer: {ex.Message}. Using default surface type.");
             return surfaceTypeName;
         }
-        
-        // Get alphamap resolution
-        int alphamapWidth = terrainData.alphamapWidth;
-        int alphamapHeight = terrainData.alphamapHeight;
-        
-        // Convert normalized coordinates to alphamap coordinates
-        int x = Mathf.FloorToInt(normalizedX * (alphamapWidth - 1));
-        int y = Mathf.FloorToInt(normalizedZ * (alphamapHeight - 1));
-        
-        // Get the alphamap data
-        float[,,] alphaMap = terrainData.GetAlphamaps(x, y, 1, 1);
-        
-        // Find the dominant layer
-        float maxWeight = 0f;
-        int dominantLayerIndex = 0;
-        
-        for (int i = 0; i < terrainData.terrainLayers.Length; i++)
-        {
-            float weight = alphaMap[0, 0, i];
-            if (weight > maxWeight)
-            {
-                maxWeight = weight;
-                dominantLayerIndex = i;
-            }
-        }
-        
-        // Get the surface type for the dominant layer
-        string mappedSurfaceType = GetSurfaceTypeForLayer(dominantLayerIndex);
-        return mappedSurfaceType;
     }
     
     private string GetSurfaceTypeForLayer(int layerIndex)
     {
-        if (terrainData.terrainLayers == null || layerIndex >= terrainData.terrainLayers.Length)
+        try
         {
-            return surfaceTypeName;
-        }
-        
-        TerrainLayer terrainLayer = terrainData.terrainLayers[layerIndex];
-        
-        if (terrainLayer == null)
-        {
-            return surfaceTypeName;
-        }
-        
-        // Check if we have a mapping for this terrain layer
-        if (terrainLayerMappings != null)
-        {
-            foreach (var mapping in terrainLayerMappings)
+            if (terrainData == null || terrainData.terrainLayers == null || layerIndex >= terrainData.terrainLayers.Length || layerIndex < 0)
             {
-                if (mapping.terrainLayer == terrainLayer)
+                return surfaceTypeName;
+            }
+            
+            TerrainLayer terrainLayer = terrainData.terrainLayers[layerIndex];
+            
+            if (terrainLayer == null)
+            {
+                return surfaceTypeName;
+            }
+            
+            // Check if we have a mapping for this terrain layer
+            if (terrainLayerMappings != null)
+            {
+                foreach (var mapping in terrainLayerMappings)
                 {
-                    return mapping.surfaceTypeName;
+                    if (mapping != null && mapping.terrainLayer == terrainLayer && !string.IsNullOrEmpty(mapping.surfaceTypeName))
+                    {
+                        return mapping.surfaceTypeName;
+                    }
                 }
             }
+            
+            // Fallback: try to determine surface type from terrain layer name
+            if (!string.IsNullOrEmpty(terrainLayer.name))
+            {
+                string layerName = terrainLayer.name.ToLower();
+                
+                if (layerName.Contains("grass")) return "Grass";
+                if (layerName.Contains("dirt") || layerName.Contains("soil")) return "Dirt";
+                if (layerName.Contains("sand")) return "Sand";
+                if (layerName.Contains("stone") || layerName.Contains("rock")) return "Stone";
+                if (layerName.Contains("gravel")) return "Gravel";
+                if (layerName.Contains("mud")) return "Mud";
+                if (layerName.Contains("snow")) return "Snow";
+                if (layerName.Contains("metal")) return "Metal";
+                if (layerName.Contains("wood")) return "Wood";
+                if (layerName.Contains("concrete")) return "Concrete";
+            }
         }
-        
-        // Fallback: try to determine surface type from terrain layer name
-        string layerName = terrainLayer.name.ToLower();
-        
-        if (layerName.Contains("grass")) return "Grass";
-        if (layerName.Contains("dirt") || layerName.Contains("soil")) return "Dirt";
-        if (layerName.Contains("sand")) return "Sand";
-        if (layerName.Contains("stone") || layerName.Contains("rock")) return "Stone";
-        if (layerName.Contains("gravel")) return "Gravel";
-        if (layerName.Contains("mud")) return "Mud";
-        if (layerName.Contains("snow")) return "Snow";
-        if (layerName.Contains("metal")) return "Metal";
-        if (layerName.Contains("wood")) return "Wood";
-        if (layerName.Contains("concrete")) return "Concrete";
+        catch (System.Exception ex)
+        {
+            Debug.LogWarning($"Error in GetSurfaceTypeForLayer: {ex.Message}. Using default surface type.");
+        }
         
         return surfaceTypeName;
     }

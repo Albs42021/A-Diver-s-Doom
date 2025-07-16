@@ -260,12 +260,6 @@ public class FirstPersonController : MonoBehaviour
         {
             isInWater = nowInWater;
             ApplyUnderwaterEffects(isInWater);
-            
-            // Debug logging for water state changes
-            if (enableFootsteps)
-            {
-                Debug.Log($"Water state changed: {(isInWater ? "Entered" : "Exited")} water. Swimming sounds: {(swimSounds != null ? swimSounds.Length : 0)} clips, Water footstep sounds: {(waterFootstepSounds != null ? waterFootstepSounds.Length : 0)} clips");
-            }
         }
     }
 
@@ -300,44 +294,60 @@ public class FirstPersonController : MonoBehaviour
 
     private string GetSurfaceType(RaycastHit hit)
     {
-        // Priority 1: Check for SurfaceType component
-        SurfaceType surfaceTypeComponent = hit.collider.GetComponent<SurfaceType>();
-        if (surfaceTypeComponent != null)
+        try
         {
-            // If it's a terrain surface, get the surface type at the specific position
-            if (surfaceTypeComponent.isTerrainSurface)
+            // Priority 1: Check for SurfaceType component
+            SurfaceType surfaceTypeComponent = hit.collider.GetComponent<SurfaceType>();
+            if (surfaceTypeComponent != null)
             {
-                return surfaceTypeComponent.GetSurfaceTypeAtPosition(hit.point);
+                try
+                {
+                    // If it's a terrain surface, get the surface type at the specific position
+                    if (surfaceTypeComponent.isTerrainSurface)
+                    {
+                        string terrainSurfaceType = surfaceTypeComponent.GetSurfaceTypeAtPosition(hit.point);
+                        return terrainSurfaceType;
+                    }
+                    else
+                    {
+                        return surfaceTypeComponent.surfaceTypeName;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogWarning($"Error getting terrain surface type: {ex.Message}. Using fallback.");
+                    return surfaceTypeComponent.surfaceTypeName;
+                }
             }
-            else
+
+            // Priority 2: Check GameObject tag
+            string tag = hit.collider.tag;
+            if (!string.IsNullOrEmpty(tag) && tag != "Untagged")
             {
-                return surfaceTypeComponent.surfaceTypeName;
+                return tag;
             }
-        }
 
-        // Priority 2: Check GameObject tag
-        string tag = hit.collider.tag;
-        if (!string.IsNullOrEmpty(tag) && tag != "Untagged")
+            // Priority 3: Check layer name
+            string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+            if (!string.IsNullOrEmpty(layerName) && layerName != "Default")
+            {
+                return layerName;
+            }
+
+            // Priority 4: Check GameObject name for common surface keywords
+            string objectName = hit.collider.name.ToLower();
+            if (objectName.Contains("metal")) return "Metal";
+            if (objectName.Contains("wood")) return "Wood";
+            if (objectName.Contains("concrete") || objectName.Contains("stone")) return "Concrete";
+            if (objectName.Contains("grass")) return "Grass";
+            if (objectName.Contains("dirt") || objectName.Contains("ground")) return "Dirt";
+            if (objectName.Contains("sand")) return "Sand";
+            if (objectName.Contains("gravel")) return "Gravel";
+        }
+        catch (System.Exception ex)
         {
-            return tag;
+            Debug.LogWarning($"Error in GetSurfaceType: {ex.Message}. Using default.");
         }
-
-        // Priority 3: Check layer name
-        string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-        if (!string.IsNullOrEmpty(layerName) && layerName != "Default")
-        {
-            return layerName;
-        }
-
-        // Priority 4: Check GameObject name for common surface keywords
-        string objectName = hit.collider.name.ToLower();
-        if (objectName.Contains("metal")) return "Metal";
-        if (objectName.Contains("wood")) return "Wood";
-        if (objectName.Contains("concrete") || objectName.Contains("stone")) return "Concrete";
-        if (objectName.Contains("grass")) return "Grass";
-        if (objectName.Contains("dirt") || objectName.Contains("ground")) return "Dirt";
-        if (objectName.Contains("sand")) return "Sand";
-        if (objectName.Contains("gravel")) return "Gravel";
 
         return "Default";
     }

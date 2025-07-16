@@ -173,15 +173,15 @@ MonoBehaviour:
   bobAmount: {x: 0, y: 0.1, z: 0}
   waterLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16
   swimSpeed: 5
   waterCheckRadius: 0.5
   swimSinkSpeed: 0.1
   climbableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   climbSpeed: 5
-  groundCheckDistance: 1.5
+  groundCheckDistance: 3
   groundCheckLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -190,24 +190,108 @@ MonoBehaviour:
   sprintFootstepInterval: 0.3
   footstepVolume: 0.75
   surfaceFootstepSounds:
-  - surfaceTypeName: 
-    walkSounds: []
-    sprintSounds: []
-  - surfaceTypeName: 
-    walkSounds: []
-    sprintSounds: []
-  - surfaceTypeName: 
-    walkSounds: []
-    sprintSounds: []
-  - surfaceTypeName: 
-    walkSounds: []
-    sprintSounds: []
-  - surfaceTypeName: 
-    walkSounds: []
-    sprintSounds: []
-  - surfaceTypeName: 
-    walkSounds: []
-    sprintSounds: []
+  - surfaceTypeName: Cobblestone
+    walkSounds:
+    - {fileID: 8300000, guid: b960e037d04cdb243a29753a2260beac, type: 3}
+    - {fileID: 8300000, guid: 443df640986e1b34889af79a8da08b14, type: 3}
+    - {fileID: 8300000, guid: b56eec3e06587da4396bbba243921a8f, type: 3}
+    - {fileID: 8300000, guid: 544f48b10f279b148bddcd9e24a2fa5e, type: 3}
+    - {fileID: 8300000, guid: 492f2305dc4ca904388e98a6d41ad71b, type: 3}
+    - {fileID: 8300000, guid: c1ff150ffd0f900408a824d9d74a67fb, type: 3}
+    - {fileID: 8300000, guid: d31cfbe5d73ec1545bcb1b037f9162cf, type: 3}
+    sprintSounds:
+    - {fileID: 8300000, guid: b960e037d04cdb243a29753a2260beac, type: 3}
+    - {fileID: 8300000, guid: 443df640986e1b34889af79a8da08b14, type: 3}
+    - {fileID: 8300000, guid: b56eec3e06587da4396bbba243921a8f, type: 3}
+    - {fileID: 8300000, guid: 544f48b10f279b148bddcd9e24a2fa5e, type: 3}
+    - {fileID: 8300000, guid: 492f2305dc4ca904388e98a6d41ad71b, type: 3}
+    - {fileID: 8300000, guid: c1ff150ffd0f900408a824d9d74a67fb, type: 3}
+    - {fileID: 8300000, guid: d31cfbe5d73ec1545bcb1b037f9162cf, type: 3}
+  - surfaceTypeName: Dry Grass
+    walkSounds:
+    - {fileID: 8300000, guid: 0fd2ebf7ff6b806498e79a7d26ca783e, type: 3}
+    - {fileID: 8300000, guid: baf095482b8f6584ea0f813b3af9e4f4, type: 3}
+    - {fileID: 8300000, guid: 0930d829054148a4c9fe0e4091b9115b, type: 3}
+    - {fileID: 8300000, guid: d43179bd385147645886fbcb92762c61, type: 3}
+    sprintSounds:
+    - {fileID: 8300000, guid: 0fd2ebf7ff6b806498e79a7d26ca783e, type: 3}
+    - {fileID: 8300000, guid: baf095482b8f6584ea0f813b3af9e4f4, type: 3}
+    - {fileID: 8300000, guid: 0930d829054148a4c9fe0e4091b9115b, type: 3}
+    - {fileID: 8300000, guid: d43179bd385147645886fbcb92762c61, type: 3}
+  - surfaceTypeName: Grass
+    walkSounds:
+    - {fileID: 8300000, guid: 0fd2ebf7ff6b806498e79a7d26ca783e, type: 3}
+    - {fileID: 8300000, guid: baf095482b8f6584ea0f813b3af9e4f4, type: 3}
+    - {fileID: 8300000, guid: 0930d829054148a4c9fe0e4091b9115b, type: 3}
+    - {fileID: 8300000, guid: d43179bd385147645886fbcb92762c61, type: 3}
+    sprintSounds:
+    - {fileID: 8300000, guid: 0fd2ebf7ff6b806498e79a7d26ca783e, type: 3}
+    - {fileID: 8300000, guid: baf095482b8f6584ea0f813b3af9e4f4, type: 3}
+    - {fileID: 8300000, guid: 0930d829054148a4c9fe0e4091b9115b, type: 3}
+    - {fileID: 8300000, guid: d43179bd385147645886fbcb92762c61, type: 3}
+  - surfaceTypeName: Rocks
+    walkSounds:
+    - {fileID: 8300000, guid: 5af6e6744d3d9644ba0527ffa48fad0d, type: 3}
+    - {fileID: 8300000, guid: f34870cbd19a9df4e86fe0789a098b31, type: 3}
+    - {fileID: 8300000, guid: e522c9ce96802374fad6f4785c30514a, type: 3}
+    - {fileID: 8300000, guid: 0b7d4899db4c2b94e9649657c45b7e7b, type: 3}
+    - {fileID: 8300000, guid: 1afd5a7c55a3b9b479af70625d88edbe, type: 3}
+    - {fileID: 8300000, guid: fa355cfd152b02a4aa4ed2ef8460248b, type: 3}
+    - {fileID: 8300000, guid: a62cf781648877340936cf487f7524ef, type: 3}
+    - {fileID: 8300000, guid: 9b49c9670e3b6f74d8ae50ed4dcf6d42, type: 3}
+    - {fileID: 8300000, guid: 2aec9674ebff8084e951f0f7b8deb43a, type: 3}
+    - {fileID: 8300000, guid: 45928ab8bb296404484e6ffe08a33c51, type: 3}
+    sprintSounds:
+    - {fileID: 8300000, guid: 5af6e6744d3d9644ba0527ffa48fad0d, type: 3}
+    - {fileID: 8300000, guid: f34870cbd19a9df4e86fe0789a098b31, type: 3}
+    - {fileID: 8300000, guid: e522c9ce96802374fad6f4785c30514a, type: 3}
+    - {fileID: 8300000, guid: 0b7d4899db4c2b94e9649657c45b7e7b, type: 3}
+    - {fileID: 8300000, guid: 1afd5a7c55a3b9b479af70625d88edbe, type: 3}
+    - {fileID: 8300000, guid: fa355cfd152b02a4aa4ed2ef8460248b, type: 3}
+    - {fileID: 8300000, guid: a62cf781648877340936cf487f7524ef, type: 3}
+    - {fileID: 8300000, guid: 9b49c9670e3b6f74d8ae50ed4dcf6d42, type: 3}
+    - {fileID: 8300000, guid: 2aec9674ebff8084e951f0f7b8deb43a, type: 3}
+    - {fileID: 8300000, guid: 45928ab8bb296404484e6ffe08a33c51, type: 3}
+  - surfaceTypeName: Sand
+    walkSounds:
+    - {fileID: 8300000, guid: 992abba7067bfb94b8e4e43181f197db, type: 3}
+    - {fileID: 8300000, guid: 9f22e13dedc123547b823f2f1bd905c5, type: 3}
+    - {fileID: 8300000, guid: 342d22f7f37c63444bc3429c6f8b3f1f, type: 3}
+    - {fileID: 8300000, guid: eca11b10bedec8a4eb0b8cf9802e3cd3, type: 3}
+    - {fileID: 8300000, guid: 192e3aea64b2a034b87d4695e4028a23, type: 3}
+    - {fileID: 8300000, guid: 725d7d3064bdfce4eac6086cd896c763, type: 3}
+    - {fileID: 8300000, guid: d84494a6d3f4d8c4b8221250753c89bd, type: 3}
+    - {fileID: 8300000, guid: 3682573c48be77b4dbe2885a97ddc32e, type: 3}
+    - {fileID: 8300000, guid: 3b2a99bebd289b143895a1ddae6f88ac, type: 3}
+    - {fileID: 8300000, guid: 51803e0e1a5a40e41a6c9253e0521aec, type: 3}
+    sprintSounds:
+    - {fileID: 8300000, guid: 992abba7067bfb94b8e4e43181f197db, type: 3}
+    - {fileID: 8300000, guid: 9f22e13dedc123547b823f2f1bd905c5, type: 3}
+    - {fileID: 8300000, guid: 342d22f7f37c63444bc3429c6f8b3f1f, type: 3}
+    - {fileID: 8300000, guid: eca11b10bedec8a4eb0b8cf9802e3cd3, type: 3}
+    - {fileID: 8300000, guid: 192e3aea64b2a034b87d4695e4028a23, type: 3}
+    - {fileID: 8300000, guid: 725d7d3064bdfce4eac6086cd896c763, type: 3}
+    - {fileID: 8300000, guid: d84494a6d3f4d8c4b8221250753c89bd, type: 3}
+    - {fileID: 8300000, guid: 3682573c48be77b4dbe2885a97ddc32e, type: 3}
+    - {fileID: 8300000, guid: 3b2a99bebd289b143895a1ddae6f88ac, type: 3}
+    - {fileID: 8300000, guid: 51803e0e1a5a40e41a6c9253e0521aec, type: 3}
+  - surfaceTypeName: Stone
+    walkSounds:
+    - {fileID: 8300000, guid: b960e037d04cdb243a29753a2260beac, type: 3}
+    - {fileID: 8300000, guid: 443df640986e1b34889af79a8da08b14, type: 3}
+    - {fileID: 8300000, guid: b56eec3e06587da4396bbba243921a8f, type: 3}
+    - {fileID: 8300000, guid: 544f48b10f279b148bddcd9e24a2fa5e, type: 3}
+    - {fileID: 8300000, guid: 492f2305dc4ca904388e98a6d41ad71b, type: 3}
+    - {fileID: 8300000, guid: c1ff150ffd0f900408a824d9d74a67fb, type: 3}
+    - {fileID: 8300000, guid: d31cfbe5d73ec1545bcb1b037f9162cf, type: 3}
+    sprintSounds:
+    - {fileID: 8300000, guid: b960e037d04cdb243a29753a2260beac, type: 3}
+    - {fileID: 8300000, guid: 443df640986e1b34889af79a8da08b14, type: 3}
+    - {fileID: 8300000, guid: b56eec3e06587da4396bbba243921a8f, type: 3}
+    - {fileID: 8300000, guid: 544f48b10f279b148bddcd9e24a2fa5e, type: 3}
+    - {fileID: 8300000, guid: 492f2305dc4ca904388e98a6d41ad71b, type: 3}
+    - {fileID: 8300000, guid: c1ff150ffd0f900408a824d9d74a67fb, type: 3}
+    - {fileID: 8300000, guid: d31cfbe5d73ec1545bcb1b037f9162cf, type: 3}
   defaultFootstepSounds:
   - {fileID: 8300000, guid: 01272980ab561c5419dd0633330d1af4, type: 3}
   - {fileID: 8300000, guid: 0807f80f18cf2f647a4680c54b3634e6, type: 3}
@@ -227,6 +311,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 746876aec055eba4782fc1490c3a4ad1, type: 3}
   - {fileID: 8300000, guid: 39df6723eef5926498f2f1a0232fba75, type: 3}
   waterFootstepSounds:
+  - {fileID: 8300000, guid: 5825c83433529fd48bc15347e3bc3030, type: 3}
+  - {fileID: 8300000, guid: f99464c2603751842b685279cbf8470a, type: 3}
+  - {fileID: 8300000, guid: 66a3e81349b8f5f4dbc5d3bb68a72224, type: 3}
+  - {fileID: 8300000, guid: 2028c6e0befce2f42918dc8ec1093f38, type: 3}
+  swimSounds:
   - {fileID: 8300000, guid: 8e2684cb5b218fb4da5f75f4bd49868c, type: 3}
   - {fileID: 8300000, guid: 2fbf50308d50d6e409ff8df97db15cf9, type: 3}
   - {fileID: 8300000, guid: 1d9f072fbc85582459baf92833c82f27, type: 3}
@@ -244,7 +333,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1c313846af468174b8fdc2f40499e9dd, type: 3}
   - {fileID: 8300000, guid: 9d7caf763962f514797815b2619a4fbb, type: 3}
   - {fileID: 8300000, guid: d2d6595800b7a0e4c8f749c841b0152d, type: 3}
-  swimSounds: []
   swimSoundInterval: 0.6
   swimSprintSoundInterval: 0.4
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
