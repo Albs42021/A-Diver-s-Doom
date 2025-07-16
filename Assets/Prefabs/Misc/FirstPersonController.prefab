@@ -156,7 +156,7 @@ MonoBehaviour:
   fov: 90
   invertCamera: 0
   cameraCanMove: 1
-  mouseSensitivity: 0.25
+  mouseSensitivity: 0.15
   maxLookAngle: 90
   lockCursor: 1
   crosshair: 1
