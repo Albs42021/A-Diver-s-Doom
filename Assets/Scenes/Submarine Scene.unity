@@ -272,9 +272,9 @@ MonoBehaviour:
   - {fileID: 895037550155073435, guid: 16cba20471a57b6418e3d2a177b6694f, type: 3}
   escapeRoomPrefab: {fileID: 0}
   startPoint: {fileID: 366680239}
-  mainPathLength: 6
+  mainPathLength: 5
   branchDepthMin: 1
-  branchDepthMax: 3
+  branchDepthMax: 2
   staircaseChance: 0.75
 --- !u!4 &319705712
 Transform:
