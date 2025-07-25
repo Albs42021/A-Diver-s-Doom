@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f40484074cc36db42a779514a4422f27
+timeCreated: 1481467995
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 77672
+  packageName: Micro Sub
+  packageVersion: 1.0
+  assetPath: Assets/Micro_Sub/Materials/Micro_Sub_Body.mat
+  uploadId: 150857

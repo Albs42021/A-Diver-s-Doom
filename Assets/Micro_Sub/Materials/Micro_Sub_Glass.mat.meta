@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2f4d7949f60c6f24aaeb36d1daf43996
+timeCreated: 1481467995
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 77672
+  packageName: Micro Sub
+  packageVersion: 1.0
+  assetPath: Assets/Micro_Sub/Materials/Micro_Sub_Glass.mat
+  uploadId: 150857

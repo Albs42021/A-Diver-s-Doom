@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c9c10e442362b304fa498afd8bec3b1c
+timeCreated: 1481468382
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 77672
+  packageName: Micro Sub
+  packageVersion: 1.0
+  assetPath: Assets/Micro_Sub/Prefabs/Micro_Sub.prefab
+  uploadId: 150857

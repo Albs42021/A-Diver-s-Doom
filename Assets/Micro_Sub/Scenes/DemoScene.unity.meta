@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 52b70252dcbba9143a67295ffd273283
+timeCreated: 1481468420
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 77672
+  packageName: Micro Sub
+  packageVersion: 1.0
+  assetPath: Assets/Micro_Sub/Scenes/DemoScene.unity
+  uploadId: 150857
