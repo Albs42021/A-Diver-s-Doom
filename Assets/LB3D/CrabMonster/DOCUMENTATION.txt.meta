@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 036eed813638a714b9e219aab08c0419
+timeCreated: 1513293410
+licenseType: Store
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107223
+  packageName: 'Insectoid Crab Monster: Lurker of the Shores (20 Animations)'
+  packageVersion: 1.2.0
+  assetPath: Assets/LB3D/CrabMonster/DOCUMENTATION.txt
+  uploadId: 413598

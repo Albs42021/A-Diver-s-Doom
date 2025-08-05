@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a12a156d452b6584caf9c62caa8fcbb3
+timeCreated: 1512586254
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107223
+  packageName: 'Insectoid Crab Monster: Lurker of the Shores (20 Animations)'
+  packageVersion: 1.2.0
+  assetPath: Assets/LB3D/CrabMonster/Materials/Rikayon-eyes.mat
+  uploadId: 413598

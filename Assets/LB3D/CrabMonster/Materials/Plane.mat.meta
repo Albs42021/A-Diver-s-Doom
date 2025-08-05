@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: bf1ff14cff133eb499e5c8a0c3950bc2
+timeCreated: 1512539223
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107223
+  packageName: 'Insectoid Crab Monster: Lurker of the Shores (20 Animations)'
+  packageVersion: 1.2.0
+  assetPath: Assets/LB3D/CrabMonster/Materials/Plane.mat
+  uploadId: 413598
