@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class LB3DGameManager : MonoBehaviour {
 
@@ -31,8 +32,13 @@ public class LB3DGameManager : MonoBehaviour {
 
         cam.transform.position = originalCamPosition + new Vector3(0, 0, zoom.value)*5f;
 
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            Application.Quit();
+        // Use new Input System instead of legacy Input.GetKeyDown
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) {
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         }
 
     }

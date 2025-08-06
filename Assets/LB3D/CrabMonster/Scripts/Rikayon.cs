@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class Rikayon : MonoBehaviour {
@@ -15,7 +16,8 @@ public class Rikayon : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        // Use new Input System instead of legacy Input.GetKeyDown
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) {
             animator.SetTrigger("Attack_1");
         }
 
